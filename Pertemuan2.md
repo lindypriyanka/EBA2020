@@ -4,12 +4,12 @@
 Seperti yang telah dilakukan dua minggu lalu, tahap pertama sebelum melakukan analisis adalah memunculkan _image_ yang kita inginkan.
 Kali ini, kita juga menggunakan data dari Landsat 8. Maka, data bisa di _import_ ke dalam _script_ dengan mencari "Landsat 8" kemudian
 menekan _import_. Silahkan mengganti nama _variable_ untuk koleksi data ini menjadi ***L8***
-![import L8](url)
+![importL8](https://github.com/lindypriyanka/EBA2020/blob/master/1.png)
 
 Setelah koleksi data dipilih, kita bisa mulai memilih foto yang ingin digunakaan. Kali ini, kita akan memilih foto berdasarkan region,
 tanggal, dan ada atau tidaknya awan. Silahkan pilih region menggunakan pilihan _Draw a rectangle_ dan tentukan daerah yang ingin
 kita analisis, dalam contoh ini daerah Gunung Papandayan. Kemudian namakan variable yang muncul ***roi***
-![filter ROI](url)
+![filter ROI](https://github.com/lindypriyanka/EBA2020/blob/master/2.png)
 
 Kemudian kita akan menggunakan _script_ dibawah ini untuk menyaring foto dengan awan yang minimum
 ```javascript
@@ -35,7 +35,7 @@ Kita bisa melihat hasil peta yang kita dapat setelah _filter_ ini dengan visuali
 Map.addLayer(roicomposite, {bands: ['B4', 'B3', 'B2'],
             min:0, max: 0.2}, 'True colour image');
 ```
-![truecolorimage](url)
+![truecolorimage](https://github.com/lindypriyanka/EBA2020/blob/master/3.png)
 
 Tahap terakhir untuk mempersiapkan foto adalah dengan merubah seluruh proses yang telah kita lakukan menjadi sabtu _variable geometry_
 ```javascript
@@ -74,7 +74,7 @@ Map.addLayer(classresult.clip(roi).randomVisualizer(),{} , 'classresult'
 ```
 
 Berikut adalah hasil klasifikasi yang didapat
-![resultunsupervised](url)
+![resultunsupervised](https://github.com/lindypriyanka/EBA2020/blob/master/4.png)
 
 ### 4. Exporting image
 Terakhir, kita dapat meng-_export_ hasil klasifikasinya dengan format GeoTiff dengan script berikut
@@ -92,3 +92,8 @@ Export.image.toDrive({
 Dalam script ini, kita meng-_export_ image ke _Google Drive_ masing-masing. kolom `image` menggambarkan hasil yang ingin kita _export_
 beserta pengaturan visualisasinya, `fileNamePrefix` merupakan nama file yang ingin kita buat, `region` adalah daerah dari hasil klasifikasi
 yang ingin kita _export_, dan `scale` adalah resolusi dari foto. 
+
+Setelah script di _run_, hasil akan muncul pada kolom ***task***. Klik tombol ***run*** yang muncul di samping hasil sehingga seharusnya
+muncul _window_ ini
+![export](https://github.com/lindypriyanka/EBA2020/blob/master/5.png)
+kemudian kita bisa merubah kembali nama file, scale, dan lokasi dari file yang akan di export. Jika seluruhnya sudah sesuai, klik _run_ dan hasil akan muncul di folder GoogleDrive yang telah dipilih
