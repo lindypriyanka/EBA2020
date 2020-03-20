@@ -1,0 +1,115 @@
+//Script for Unsupervised Classification with free clouded imagery
+// Function to mask clouds using the quality band of Landsat 8.
+var maskL8 = function(image) {
+  var qa = image.select('BQA');
+  /// Check that the cloud bit is off.
+  // See https://www.usgs.gov/land-resources/nli/landsat/landsat-collection-1-level-1-quality-assessment-band
+  var mask = qa.bitwiseAnd(1 << 4).eq(0);
+  return image.updateMask(mask);
+}
+
+// Map the function over one year of Landsat 8 TOA data and take the median.
+var composite = L8
+    .filterDate('2019-01-01', '2019-12-31')
+    .map(maskL8)
+    .median();
+
+var roicomposite = composite.clip(roi);
+
+// Display the results in a cloudy place.
+Map.setCenter(107.722, -7.3181);
+Map.addLayer(roicomposite, {bands: ['B4', 'B3', 'B2'], max: 0.3}, "normal");
+
+
+// use the bounding box of a Landsat-8 image
+var region = roicomposite.geometry();
+
+
+// training region in the full scene
+var training = roicomposite.sample({
+  region: region,
+  scale: 30,
+  numPixels: 5000
+});
+
+// train cluster on image
+var clusterer = ee.Clusterer.wekaKMeans(7).train(training);
+
+// cluster the complete image
+var classresult = roicomposite.cluster(clusterer);
+
+// Display the clusters with random colors.
+Map.addLayer(classresult.clip(roi).randomVisualizer(),{} , 'classresult'
+             );
+//export map
+Export.image.toDrive({
+  image: classresult.randomVisualizer(),
+  fileNamePrefix:"unsupervised",
+  region: roi,
+  scale: 30,
+  crs:'EPSG:32750',
+  maxPixels:1e13
+})
+//(image, description, folder, fileNamePrefix, dimensions, region, scale, crs, crsTransform, maxPixels, shardSize, fileDimensions, skipEmptyTiles, fileFormat, formatOptions)
+//Script for Supervised Classification with least clouded imagery
+
+// Function to mask clouds using the quality band of Landsat 8.
+var maskL8 = function(image) {
+  var qa = image.select('BQA');
+  /// Check that the cloud bit is off.
+  // See https://www.usgs.gov/land-resources/nli/landsat/landsat-collection-1-level-1-quality-assessment-band
+  var mask = qa.bitwiseAnd(1 << 4).eq(0);
+  return image.updateMask(mask);
+}
+
+// Map the function over one year of Landsat 8 TOA data and take the median.
+var composite = L8
+    .filterDate('2019-01-01', '2019-12-31')
+    .map(maskL8)
+    .median();
+
+var roicomposite = composite.clip(roi);
+
+// Display the results in a cloudy place.
+Map.setCenter(107.722, -7.3181);
+Map.addLayer(roicomposite, {bands: ['B4', 'B3', 'B2'], max: 0.3}, "normal");
+
+
+// use the bounding box of a Landsat-8 image
+var region = roicomposite.geometry();
+
+
+// Define visualization parameters for a true color image.
+var vizParams = {'bands': ['B4', 'B3', 'B2'], 'min': 0, 'max': 0.3};
+Map.addLayer(roicomposite.clip(roi), vizParams, 'roi scene');
+
+//Build training sample of each class
+
+//Merge training sample
+var sample = barren.merge(forest2).merge(agri).merge(buildings).merge(forest2);
+
+//Check feature collection
+print (sample);
+
+//Create training from point to image
+var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
+var training = roicomposite.select(bands).sampleRegions({
+    collection: sample, 
+    properties: ['landcover'], 
+    scale: 30
+});
+
+//Train the classifier
+
+var classifier02 = ee.Classifier.randomForest().train({
+  features: training, 
+  classProperty: 'landcover', 
+  inputProperties: bands
+});
+
+//Run the classification
+var classified02 = roicomposite.select(bands).classify(classifier02).clip(roi);
+
+Map.addLayer(classified02, {min: 1, max: 5, palette: ["red", "darkgreen", "yellow","white"]}, 'classification RF');
+Map.setCenter(107.725, -7.3105, 11);
+
