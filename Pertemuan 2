@@ -1,3 +1,4 @@
+# Pertemuan 2
 //Script for Unsupervised Classification with free clouded imagery
 // Function to mask clouds using the quality band of Landsat 8.
 var maskL8 = function(image) {
