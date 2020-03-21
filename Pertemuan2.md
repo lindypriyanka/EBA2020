@@ -58,8 +58,10 @@ Pada script ini, `region` menggambarkan daerah yang menjadi sumber _training_, d
 30/30m sesuai dengan resolusi Landsat 8. Setelah itu, kita bisa menjalankan traning menggunakan script berikut. Pada tahap ini juga kita
 bisa memilih berapa jumlah kelas yang kita inginkan. Contoh ini menggunakan 5 kelas, tapi silahkan mencoba untuk berbagai jumlah kelas.
 
+```javascript
 // train cluster on image
 var clusterer = ee.Clusterer.wekaKMeans(5).train(training);
+```
 
 ### 3. Menjalankan klasifikasi
 Setelah classifier berhasil di _training_ kita bisa memjalankan klasifikasi dengan script berikut dan hasilnya dapat kemudian dilihat
