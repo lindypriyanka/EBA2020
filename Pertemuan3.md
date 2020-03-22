@@ -49,6 +49,7 @@ Pada script ini, kita membuat dua variabel, yaitu variabel `nir` dan `red` yang 
 Map.addLayer(ndvi, {min: -1, max: 1, palette:['blue', 'white', 'green']}, 'NDVI image');
 ```
 Dari hasil ini, terlihat bahwa daerah yang lebih hijau memiliki indeks vegetasi yang lebih tinggi
+![ndvi1](https://github.com/lindypriyanka/EBA2020/blob/master/13.png)
 
 ### 2. Perhitungan langsung
 Selain menggunakan cara manual seperti diatas, karena NDVI sangat sering dipakai dalam _remote sensing_, GEE memiliki cara singkat untuk melakukan kalkulasi ini, yaitu dengan menggunakan fungsi `ee.image` seperti dibawah ini
@@ -58,3 +59,4 @@ var ndvi2 = roicomposite.normalizedDifference(['B5', 'B4']).rename('NDVI');
 ```
 
 Jika hasil ini di visualisasi, hasil yang didapatkan akan sama dengan hasil dengan metode manual
+![ndvi2](https://github.com/lindypriyanka/EBA2020/blob/master/14.png)
