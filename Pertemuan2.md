@@ -86,9 +86,7 @@ Export.image.toDrive({
   image: classresult.randomVisualizer(),
   fileNamePrefix:"unsupervised",
   region: roi,
-  scale: 30,
-  crs:'EPSG:32750',
-  maxPixels:1e13
+  scale: 30
 })
 ```
 Dalam script ini, kita meng-_export_ image ke _Google Drive_ masing-masing. kolom `image` menggambarkan hasil yang ingin kita _export_
