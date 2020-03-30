@@ -63,6 +63,7 @@ Jika hasil ini di visualisasi, hasil yang didapatkan akan sama dengan hasil deng
 
 ### 3. Hasil NDVI
 Kita bisa melihat nilai NDVI untuk setiap pixel pada menu inspector hanya dengan mengklik titik pada peta, kemudian akan terliha nilai NDVI-nya. Nilai NDVI ini dapat membantu mengklasifikasi tingkat kehijauan, atau jenis penutupan lahan seperti yang dapat dilihat pada tabel dibawah ini
+
 ![tabel](https://github.com/lindypriyanka/EBA2020/blob/master/15.png)
 
 ### 4. Export hasil
