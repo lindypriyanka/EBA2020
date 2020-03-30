@@ -60,3 +60,19 @@ var ndvi2 = roicomposite.normalizedDifference(['B5', 'B4']).rename('NDVI');
 
 Jika hasil ini di visualisasi, hasil yang didapatkan akan sama dengan hasil dengan metode manual
 ![ndvi2](https://github.com/lindypriyanka/EBA2020/blob/master/14.png)
+
+### 3. Hasil NDVI
+Kita bisa melihat nilai NDVI untuk setiap pixel pada menu inspector hanya dengan mengklik titik pada peta, kemudian akan terliha nilai NDVI-nya. Nilai NDVI ini dapat membantu mengklasifikasi tingkat kehijauan, atau jenis penutupan lahan seperti yang dapat dilihat pada tabel dibawah ini
+![tabel](https://github.com/lindypriyanka/EBA2020/blob/master/15.png)
+
+### 4. Export hasil
+Setelah selesai melakukan analisis NDVI, silahkan export gambar dalam format GeoTiff seperti minggu kemarin
+
+```javascript
+//export map
+Export.image.toDrive({
+  image: ndvi,
+  fileNamePrefix:"ndvi",
+  region: roi,
+  scale: 30
+})
